@@ -1,34 +1,70 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { TouchableOpacity } from 'react-native'
+import React, { useState } from 'react';
+import { Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 
 const LoginParts = () => {
+
+
+    const navigation = useNavigation()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+
+    const handleLogin = async () => {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                navigation.navigate('Home');
+            })
+            .catch((error) => {
+                setError(error.message);
+            });
+    };
+
     return (
-        <SafeAreaView className="bg-white">
-            <View className="items-center mt-5">
-                <View className='mb-5' >
+        <SafeAreaView className=" bg-white">
+            <View className=" items-center justify-center m-4">
+                <View className="mb-4">
                     <Text className="font-semibold mb-2">User Name</Text>
-                    <TextInput placeholder='Enter Your CNIC No...' className="bg-gray-200 p-3 w-80"></TextInput>
+                    <TextInput
+                        placeholder="Email"
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
+                        className="bg-gray-200 p-2 w-64"
+                    />
                     <Text className="font-semibold mt-3 mb-2">Password</Text>
-                    <TextInput placeholder='Enter Your Password' className="bg-gray-200 p-3 w-80"></TextInput>
+                    <TextInput
+                        placeholder="Password"
+                        secureTextEntry
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        className="bg-gray-200 p-2 w-64"
+                    />
                 </View>
-                <TouchableOpacity className="p-4 bg-[#4E7AC8] w-80 rounded-lg">
-                    <Text className="text-center text-lg text-white font-bold">Login</Text>
+                <TouchableOpacity
+                    onPress={handleLogin}
+                    className="p-3 bg-[#4E7AC8] w-64 rounded-lg"
+                >
+                <Text className="text-center text-lg text-white font-bold">Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity className="mt-3">
+                {error && <Text className="text-red-500 mt-2">Invalid Username or Password</Text>}
+                <TouchableOpacity className="mt-2">
                     <Text className="text-[#4E7AC8] underline">Forget Your Password?</Text>
                 </TouchableOpacity>
-                <Text className='text-center w-80 mt-3 text-gray-500'>Note: If you are first semester student, username & password is your CNIC No.</Text>
+                <Text className="text-center mt-4 text-gray-500">
+                    Note: If you are a first-semester student, username is e.g 36502-123456789-8@gcuf.com & password is your CNIC Number
+                </Text>
             </View>
             <Image
                 source={require('../assets/footer-logo.jpg')}
-                style={{ width: "auto", height: 100 }}
+                style={{ width: 'auto', height: 100 }}
                 className="mt-20"
             />
         </SafeAreaView>
-    )
-}
+    );
+};
 
-export default LoginParts
-
+export default LoginParts;
