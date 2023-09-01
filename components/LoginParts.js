@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 import { Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { account } from '../Appwrite';
 import { useNavigation } from '@react-navigation/native';
 
 const LoginParts = () => {
-
-
-    const navigation = useNavigation()
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+  
+    const handleLogin =  () => {
+        const promise = account.createEmailSession(email, password);
 
-    const handleLogin = async () => {
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                navigation.navigate('Home');
-            })
-            .catch((error) => {
-                setError(error.message);
-            });
+        promise.then(function (response) {
+            navigation.navigate('Home')
+            console.log(response); // Success
+        }, function (error) {
+            console.log(error); // Failure
+        });
+        
     };
 
     return (

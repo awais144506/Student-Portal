@@ -1,15 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { Text} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../api/auth/AuthProvider';
 
 const HomeScreen = () => {
+  const { user } = useAuth();
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      const userUsername = user.name;
+      setUsername(userUsername);
+    }
+  }, [user]);
+
   return (
     <SafeAreaView>
-      <Text className="text-center mt-5">Welcome Awais</Text>
+      <Text style={{ textAlign: 'center', marginTop: 5 }}>Welcome {username}</Text>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default HomeScreen
-
-const styles = StyleSheet.create({})
+export default HomeScreen;
