@@ -17,7 +17,7 @@ const LoginParts = () => {
             navigation.navigate('Home')
             console.log(response); // Success
         }, function (error) {
-            console.log(error); // Failure
+            setError(error); // Failure
         });
         
     };
