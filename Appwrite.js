@@ -5,5 +5,5 @@ client
     .setProject('64e346356ddeac62c8ca')
 export const account = new Account(client)
 export const db = new Databases(client)
-
+export const storage = new Storage (client)
 

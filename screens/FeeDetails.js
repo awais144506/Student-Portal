@@ -1,0 +1,40 @@
+import { View, Text, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Footer from '../components/Footer';
+const FeeDetails = () => {
+    return (
+        <SafeAreaView>
+            <View>
+                <View className="flex mt-20 mb-20 items-center justify-center">
+                    <View className="bg-white p-8 w-80 rounded-lg shadow-md">
+                        <Text className="text-2xl font-bold mb-4 text-center">Fee Status</Text>
+                        <Text className="text-2xl font-bold mb-4 text-center text-[#65A000]">Paid</Text>
+                        <Text className="text-2xl font-bold mb-4 text-center text-[#D40B0B]">Pending</Text>
+                        <TouchableOpacity className="p-3 bg-[#4E7AC8] w-70 rounded-lg">
+                            <Text className="text-white text-center font-semibold">Download Fee Voucher</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <View className="mt-20 mb-12 p-5">
+                        <Text>Instructions:
+                        </Text>
+                        <Text>1- Dear student please pay your fee before Due Date.{'\n'}
+                            2- Thesis Fee @ Rs. 3000/- will be charged in final semester in addition to above.{'\n'}
+                            3- Project Fee @ Rs. 1500/- will be charged at the time of Project submission.{'\n'}
+                            4- Degree Verification on Fee @ Rs. 1500/- will be charged in 3rd semester in addition to above.{'\n'}
+                            5- Degree Fee @ Rs. 2500/- will be charged in fi nal semester in addition to above.{'\n'}
+
+                            6- Bank Address: <Text className='text-[#D40B0B]'>Taufeel Shaheed Road Branch, Near Bus
+                            Terminal Sahiwal</Text>
+                        </Text>
+                    </View>
+                </View>
+
+                <Footer />
+            </View>
+
+        </SafeAreaView>
+    )
+}
+
+export default FeeDetails
