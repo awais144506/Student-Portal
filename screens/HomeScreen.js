@@ -28,15 +28,13 @@ const HomeScreen = () => {
           );
 
           console.log('Fetched documents:', response);
-          console.log(userId)
-
-          if (response.document) {
-            setStudent(response.document);
-          } else {
-            setStudent(null); // Set student to null if document is not found
+          if(response){
+            setStudent(response);
+            setLoading(false);
           }
-
-          setLoading(false);
+          else{
+            setStudent(null)
+          }
         } catch (error) {
           console.log('Error fetching user documents:', error);
           setLoading(false);
@@ -46,9 +44,10 @@ const HomeScreen = () => {
 
     fetchStudentData();
   }, [user]);
+ 
   
   const renderStudentItem = ({ item }) => (
-    <View className='flex-1 items-center mt-8'>
+    <View className='flex-1 items-center mt-8 mb-2'>
       <Image
         source={{
           uri:
@@ -88,6 +87,7 @@ const HomeScreen = () => {
       </View>
     </View>
   );
+  console.log(student)
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -95,15 +95,17 @@ const HomeScreen = () => {
         <Icon name="bell" size={24} color="gray" />
       </TouchableOpacity>
 
-      {student && student.$id === user.$id ? ( // Check if student exists and IDs match
-      <FlatList
-        data={[student]}
-        renderItem={renderStudentItem}
-        keyExtractor={(item) => item.$id}
-      />
-    ) : (
-      <Text className="text-center mt-80 text-[red] mb-24">No student data found for the current user.</Text>
-    )}
+      {student ? ( // Check if student is not null
+        <FlatList
+          data={[student]}
+          renderItem={renderStudentItem}
+          keyExtractor={(item) => item.$id}
+        />
+      ) : (
+        <Text className="text-center mt-80 text-[#d43e3e] font-bold mb-24">
+          No student data found for the current user.
+        </Text>
+      )}
       <View className="p-8">
         <View className="flex-row justify-between  mb-2 ">
           {/* Card 1 */}

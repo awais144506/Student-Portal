@@ -61,7 +61,7 @@ const LoginScreen = () => {
             <Image
                 source={require('../assets/footer-logo.jpg')}
                 style={{ width: 'auto', height: 100 }}
-                className="mt-20"
+                className="mt-24"
             />
         </SafeAreaView>
     )

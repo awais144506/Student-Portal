@@ -29,6 +29,11 @@ export function AuthProvider({ children }) {
   }
 
   const logout = () => {
+    if (!user) {
+      console.error('User is null or undefined. Logout aborted.');
+      return;
+    }
+  
     account
       .deleteSession('current')
       .then((response) => {
@@ -40,6 +45,7 @@ export function AuthProvider({ children }) {
         console.error('Logout failed:', error);
       });
   };
+  
 
 
 
