@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon2 from 'react-native-vector-icons/Entypo';
 import { useAuth } from '../api/auth/AuthProvider';
 const Footer = () => {
-  const { user,logout } = useAuth();
+  const { logout } = useAuth();
 
 
   return (
