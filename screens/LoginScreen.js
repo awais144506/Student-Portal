@@ -9,8 +9,7 @@ const LoginScreen = () => {
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const {user,login} = useAuth()
+    const {user,login,error} = useAuth()
 
     
     useEffect(() => {
@@ -51,7 +50,7 @@ const LoginScreen = () => {
                 >
                 <Text className="text-center text-lg text-white font-bold">Login</Text>
                 </TouchableOpacity>
-               {error && <Text className="text-red-500 mt-2">Invalid Username or Password.</Text>} 
+               {error && <Text className="text-red-500 mt-2">{error}</Text>} 
                 <TouchableOpacity className="mt-2">
                     <Text className="text-[#4E7AC8] underline">Forget Your Password?</Text>
                 </TouchableOpacity>

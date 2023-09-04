@@ -5,7 +5,9 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState('')
   const navigation = useNavigation();
+
 
   useEffect(() => {
     account.get()
@@ -14,15 +16,16 @@ export function AuthProvider({ children }) {
   }, []);
 
 
-  const login = (email, password) => {
-    const promise = account.createEmailSession(email, password);
-    promise.then(function (response) {
-      console.log('Logged In ',response)
-      let accountDetails = account.get()
-      setUser(accountDetails)
-    }, function (error) {
-      console.log(error); // Failure
-    });
+  const login = async (email, password) => {
+    try {
+      const response = await account.createEmailSession(email, password);
+      console.log('Logged In', response);
+  
+      const accountDetails = await account.get();
+      setUser(accountDetails);
+    } catch (error) {
+      setError('Invalid Username or Password');
+    }
   }
 
   const logout = () => {
@@ -42,7 +45,7 @@ export function AuthProvider({ children }) {
 
 
   return (
-    <AuthContext.Provider value={{ user, logout ,login}}>
+    <AuthContext.Provider value={{ user, logout ,login,error}}>
       {children}
     </AuthContext.Provider>
   );

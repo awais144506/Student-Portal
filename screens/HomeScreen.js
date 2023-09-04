@@ -13,23 +13,40 @@ const HomeScreen = () => {
   const { user } = useAuth();
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [imageURL, setImageURL] = useState(null);
+
   useEffect(() => {
-    if (user) {
-      setLoading(true);
-      db.listDocuments('64e7be0277a594862d45', '64f0f520befd69e9ef44', [], 0)
-        .then(function (response) {
+    const fetchStudentData = async () => {
+      if (user) {
+        try {
+          setLoading(true);
+          const userId = user.$id;
+
+          const response = await db.getDocument(
+            '64e7be0277a594862d45',
+            '64f0f520befd69e9ef44',
+            userId
+          );
+
           console.log('Fetched documents:', response);
-          setStudent(response.documents);
+          console.log(userId)
+
+          if (response.document) {
+            setStudent(response.document);
+          } else {
+            setStudent(null); // Set student to null if document is not found
+          }
+
           setLoading(false);
-        })
-        .catch(function (error) {
+        } catch (error) {
           console.log('Error fetching user documents:', error);
           setLoading(false);
-        });
-    }
-  }, [user]);
+        }
+      }
+    };
 
+    fetchStudentData();
+  }, [user]);
+  
   const renderStudentItem = ({ item }) => (
     <View className='flex-1 items-center mt-8'>
       <Image
@@ -78,12 +95,15 @@ const HomeScreen = () => {
         <Icon name="bell" size={24} color="gray" />
       </TouchableOpacity>
 
+      {student && student.$id === user.$id ? ( // Check if student exists and IDs match
       <FlatList
-        data={student}
+        data={[student]}
         renderItem={renderStudentItem}
         keyExtractor={(item) => item.$id}
       />
-
+    ) : (
+      <Text className="text-center mt-80 text-[red] mb-24">No student data found for the current user.</Text>
+    )}
       <View className="p-8">
         <View className="flex-row justify-between  mb-2 ">
           {/* Card 1 */}
