@@ -13,7 +13,8 @@ const HomeScreen = () => {
   const { user } = useAuth();
   const [student, setStudent] = useState([]);
   const [loading, setLoading] = useState(true);
- 
+  const [ProfileImageUrl, setProfileImageUrl] = useState('https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user-thumbnail.png');
+
   useEffect(() => {
     const fetchStudentData = async () => {
       if (user) {
@@ -44,45 +45,47 @@ const HomeScreen = () => {
     fetchStudentData();
   }, [user]);
 
-  // useEffect(() => {
-  //   const fetchProfileImage =  () => {
-  //     if (user) {
-  //       try {
-  //         const userIdImage = user.$id;
-  //         const imageUrl =  storage.getFilePreview(
-  //           '64e7be2196c5279bda80',
-  //           userIdImage
-  //         );
-
-  //         console.log('This is Image Link', imageUrl);
-
-  //         if (!imageUrl) {
-  //           console.error('Profile image URL is null or undefined');
-  //           setProfileImageError('Profile image URL is null or undefined');
-  //         } else {
-  //           setProfileImageUrl(imageUrl);
-  //         }
-  //       } catch (error) {
-  //         console.error('Error fetching profile image:', error);
-  //         setProfileImageError(error.message || 'Error fetching profile image');
-  //       }
-  //     }
-  //   };
-
-  //   fetchProfileImage();
-  // }, [user]);
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      if (user) {
+        try {
+          const userIdImage = user.$id;
+          const imageUrl = await storage.getFilePreview(
+            '64e7be2196c5279bda80',
+            userIdImage
+          );
   
+          console.log('This is Image Link', imageUrl);
   
+          if (!imageUrl) {
+            console.error('Profile image URL is null or undefined');
+          } else {
+            setProfileImageUrl(imageUrl.toString());
+            console.log('This is string Image URL', ProfileImageUrl);
+          }
+        } catch (error) {
+          console.error('Error fetching profile image:', error);
+        }
+      }
+    };
+  
+    fetchProfileImage();
+  }, [user]);
+  
+
 
   const renderStudentItem = ({ item }) => (
 
     <View className='flex-1 items-center mt-8 mb-2'>
-      <Image
-        source={{
-          uri:  'https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user-thumbnail.png',
-        }}
-        style={{ width: 100, height: 100, borderRadius: 50 }}
-      />
+     <Image
+  source={{
+    uri: 
+       ProfileImageUrl||
+       'https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user-thumbnail.png',
+  }}
+  style={{ width: 100, height: 100, borderRadius: 50 }}
+/>
+
       <View className="bg-white shadow-lg shadow-gray-400 p-8 flex mt-5 pl-5 rounded-lg">
         <Text className="font-bold mb-1">
           ROLL NO: <Text className="font-normal">{item.rollNo}</Text>
@@ -112,14 +115,17 @@ const HomeScreen = () => {
         <Text className="font-bold mb-1">
           CGPA: <Text className="font-normal">{item.cgpa}</Text>
         </Text>
+
       </View>
     </View>
+
   );
-  console.log(student)
+
+
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <TouchableOpacity className="flex items-end mr-7 mt-5" onPress={()=>navigation.navigate("Notifications")}>
+      <TouchableOpacity className="flex items-end mr-7 mt-5" onPress={() => navigation.navigate("Notifications")}>
         <Icon name="bell" size={24} color="gray" />
       </TouchableOpacity>
 
@@ -155,7 +161,7 @@ const HomeScreen = () => {
           </TouchableOpacity>
 
           {/* Card 2 */}
-          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-lg shadow-gray-300 " onPress={()=>navigation.navigate("FeeDetails")}>
+          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-lg shadow-gray-300 " onPress={() => navigation.navigate("FeeDetails", { feeStatus: student.feeStatus })}>
             <Icon name="sticky-note" size={24} color="#EB7724" />
             <Text className="text-[#EB7724]">Fee Details</Text>
           </TouchableOpacity>
