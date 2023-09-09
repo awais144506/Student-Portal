@@ -143,21 +143,21 @@ const HomeScreen = () => {
       <View className="p-8">
         <View className="flex-row justify-between  mb-2 ">
           {/* Card 1 */}
-          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-xl shadow-gray-300 mr-2">
+          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-xl shadow-gray-300 mr-2" onPress={() => navigation.navigate("ClassProceddings")}>
             <Icon name="chalkboard-teacher" size={24} color="#4E7AC8" />
             <Text className="text-[#4E7AC8]">Class {'\n'}Proceedings</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-lg shadow-gray-300 ">
+          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-lg shadow-gray-300 " onPress={() => navigation.navigate("Results")}>
             <Icon2 name="bar-graph" size={24} color="#F6508E" />
             <Text className="text-[#F6508E]">Results</Text>
           </TouchableOpacity>
         </View>
         <View className="flex-row justify-between ">
           {/* Card 1 */}
-          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-xl shadow-gray-300 mr-2 ">
+          <TouchableOpacity className="w-1/2 bg-white p-4 rounded shadow-xl shadow-gray-300 mr-2 " onPress={() => navigation.navigate("DateSheet")}>
             <Icon2 name="calendar" size={24} color="#80B527" />
-            <Text className="text-[#80B527]">Date Sheet/{'\n'}Time Table</Text>
+            <Text className="text-[#80B527]">Date Sheet</Text>
           </TouchableOpacity>
 
           {/* Card 2 */}
