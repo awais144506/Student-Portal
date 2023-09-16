@@ -57,11 +57,12 @@ const LoginScreen = () => {
                 <Text className="text-center mt-4 text-gray-500">
                     Note: If you are a first-semester student, username is e.g 36502-123456789-8@gcuf.com & password is your CNIC Number
                 </Text>
+                <Text>Developed By: <Text className="text-[#4E7AC8] font-semibold">Muhammad Awais</Text> </Text>
             </View>
             <Image
                 source={require('../assets/footer-logo.jpg')}
                 style={{ width: 'auto', height: 100 }}
-                className="mt-24"
+                className="mt-20"
             />
         </SafeAreaView>
     )
